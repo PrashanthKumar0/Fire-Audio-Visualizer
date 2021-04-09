@@ -3,6 +3,29 @@ function $(_el) {
 }
 var cnvs=$('cnvs');
 
+var fireEffectActive=0;
+
+$("fireEffect").addEventListener('change',function(e){
+    if(e.target.checked){
+        fireEffectActive=1;
+    
+        ctx.shadowBlur=0;
+        ctx.shadowColor="transparent";
+        ctx.shadowOffsetX=0;
+        ctx.shadowOffsetY=0;
+        cnvs.style.filter="blur(8px) contrast(8)";
+        return;
+    } 
+    fireEffectActive=0;
+    
+    ctx.shadowBlur=0;
+    ctx.shadowColor="brown";
+    ctx.shadowOffsetX=0;
+    ctx.shadowOffsetY=0;
+    cnvs.style.filter="none";
+});
+
+
 const ctx=cnvs.getContext('2d');
 var w=cnvs.width=innerWidth;
 var h=cnvs.height=innerHeight;
@@ -10,7 +33,7 @@ var h=cnvs.height=innerHeight;
 const aud=new Audio("./music.mp3");
 // aud.crossOrigin='Anonymous';
 aud.controls=true;
-audio.preload = 'auto';
+aud.preload = 'auto';
 
 document.body.appendChild(aud);
 
@@ -54,15 +77,13 @@ function looper() {
     analyser.getByteFrequencyData(arr);
     var i=100;
     ctx.beginPath();
-    for(var a=0; a < 2*Math.PI ;a+=1*(Math.PI/180)){
+    var angle_stride=1; //1 degree's stride 
+    if(fireEffectActive) angle_stride=10;
+    for(var a=0; a < 2*Math.PI ;a+= angle_stride*(Math.PI/180)){
     
         var x=(10+((w/2)+Math.cos(a)*arr[i]));
         var y=(10+((h/2)+Math.sin(a)*arr[i]));
         if(a==0){
-            ctx.shadowBlur=100;
-            ctx.shadowColor="brown";
-            ctx,shadowOffsetX=0;
-            ctx,shadowOffsetY=0;
             gradient=ctx.createRadialGradient(w/2,h/2,Math.floor(arr[i]/3),w/2,h/2,500);
             gradient.addColorStop(0,"aqua");
             gradient.addColorStop(0.4,"hotpink");
