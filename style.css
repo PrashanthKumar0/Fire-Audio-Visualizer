@@ -9,7 +9,8 @@ body{
 #cnvs{
     display: block;
     width: 100%;
-    filter:blur(8px) contrast(8);
+    /* filter:blur(8px) contrast(8);  */
+    /* this above thing adds cool effect but it slows down animation a bit */
 }
 audio{
     position: fixed;

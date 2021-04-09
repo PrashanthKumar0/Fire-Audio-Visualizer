@@ -10,6 +10,8 @@ var h=cnvs.height=innerHeight;
 const aud=new Audio("./music.mp3");
 // aud.crossOrigin='Anonymous';
 aud.controls=true;
+audio.preload = 'auto';
+
 document.body.appendChild(aud);
 
 
@@ -52,12 +54,15 @@ function looper() {
     analyser.getByteFrequencyData(arr);
     var i=100;
     ctx.beginPath();
-    for(var a=0; a < 2*Math.PI ;a+=4*(Math.PI/180)){
+    for(var a=0; a < 2*Math.PI ;a+=1*(Math.PI/180)){
     
         var x=(10+((w/2)+Math.cos(a)*arr[i]));
         var y=(10+((h/2)+Math.sin(a)*arr[i]));
         if(a==0){
-         
+            ctx.shadowBlur=100;
+            ctx.shadowColor="brown";
+            ctx,shadowOffsetX=0;
+            ctx,shadowOffsetY=0;
             gradient=ctx.createRadialGradient(w/2,h/2,Math.floor(arr[i]/3),w/2,h/2,500);
             gradient.addColorStop(0,"aqua");
             gradient.addColorStop(0.4,"hotpink");
